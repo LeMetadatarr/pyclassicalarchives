@@ -6,7 +6,7 @@ Every model is a plain :func:`dataclasses.dataclass` with:
 - a ``url`` property — the canonical web page for the entity;
 - ``to_dict()`` — a JSON-serialisable plain ``dict``;
 - ``to_external_ids_dict()`` — a dict suitable for ``ExternalIds(extra=...)``
-  in metadatarr (see :mod:`pyclassicalarchives._provider`).
+  in metadatarr (which consumes it via a provider in the metadatarr repo).
 
 The raw API uses terse keys (``n``, ``b``, ``d``, ``nat``, ``f`` …). These
 models are the friendly, stable surface — build them with the
@@ -163,7 +163,7 @@ class Composer:
         return d
 
     def to_external_ids_dict(self) -> Dict[str, str]:
-        """Dict for ``ExternalIds(extra=...)`` — see :mod:`._provider`."""
+        """Dict for ``ExternalIds(extra=...)`` — consumed by metadatarr."""
         return {
             "classicalarchives_composer": self.site_id,
             "classicalarchives_url": self.url,

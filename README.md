@@ -60,27 +60,25 @@ Start with **[docs/quickstart.md](docs/quickstart.md)**, then:
 
 - [docs/api.md](docs/api.md) — every function, every model field
 - [docs/advanced.md](docs/advanced.md) — pagination, transport, error handling, rate limits
-- [docs/metadatarr.md](docs/metadatarr.md) — canonical ids, entity lookup, the resolver provider
+- [docs/canonical_ids.md](docs/canonical_ids.md) — canonical ids (how metadatarr consumes this)
 - [docs/dataset.md](docs/dataset.md) — building a Hugging Face dataset
 
 Runnable, numbered scripts live in [examples/](examples/).
 
-## metadatarr integration
+## Canonical ids & metadatarr
+
+This package is a **pure scraper**. It exposes Classical Archives' stable ids
+via `site_id` and `to_external_ids_dict()`:
 
 ```python
-import pyclassicalarchives._provider          # registers the provider
-from metadatarr.resolve.base import resolve
-from mediavocab.models.signals import Signals
-from mediavocab import PlaybackType
-
-result = resolve(Signals(
-    artist="Johann Sebastian Bach",
-    playback_type=PlaybackType.AUDIO,
-    content_genres=["classical"],
-))
-print(result.external_ids.extra)               # {'classicalarchives_composer': '2113', ...}
+bach = ca.search_composers("johann sebastian bach")[0]
+bach.to_external_ids_dict()
+# {'classicalarchives_composer': '2113',
+#  'classicalarchives_url': 'https://www.classicalarchives.com/composer/2113.html'}
 ```
 
-The provider resolves a composer to its stable Classical Archives id and emits
-an `EntityRole.COMPOSER` entity, from which metadatarr derives a deterministic
-canonical entity id. See [docs/metadatarr.md](docs/metadatarr.md).
+The metadatarr resolver **consumes** these — the `MetadataProvider` lives in the
+[metadatarr](../metadatarr) repo (`metadatarr/resolve/providers/classicalarchives.py`),
+not here, so integration code isn't scattered across client repos. Install both
+packages and metadatarr auto-discovers the provider. See
+[docs/canonical_ids.md](docs/canonical_ids.md).

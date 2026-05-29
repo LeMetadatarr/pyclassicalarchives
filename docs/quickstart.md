@@ -125,6 +125,6 @@ print(detail.to_external_ids_dict())
 ## Next steps
 
 - [api.md](api.md) — the complete reference
-- [metadatarr.md](metadatarr.md) — canonical ids and the resolver provider
+- [canonical_ids.md](canonical_ids.md) — canonical ids (how metadatarr consumes this)
 - [dataset.md](dataset.md) — turn the catalogue into a Hugging Face dataset
 - [advanced.md](advanced.md) — transport, rate limits, error handling

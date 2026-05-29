@@ -2,8 +2,9 @@
 
 Typed Python client for Classical Archives (classicalarchives.com): browse
 curated and full A–Z composer lists, search by name, fetch full composer pages
-(bio, period, albums, works), with optional metadatarr provider integration and
-a dataset row builder.
+(bio, period, albums, works), and a dataset row builder. Pure scraper — the
+metadatarr `MetadataProvider` that consumes it lives in the **metadatarr** repo
+(`metadatarr/resolve/providers/classicalarchives.py`), not here.
 
 ## Setup
 
@@ -45,14 +46,10 @@ No linter / type checker is configured. Source is fully type-annotated with
   client-side `search_composers` (no server search endpoint exists).
 - `pyclassicalarchives/_transport.py` — `get_json()` over a shared session;
   `PYCLASSICALARCHIVES_TRANSPORT=curl_cffi` swaps in curl_cffi impersonation.
-- `pyclassicalarchives/_provider.py` — optional metadatarr `MetadataProvider`.
-  Import-time best-effort registration; no-ops if metadatarr/mediavocab absent.
-  Matches `PlaybackType.AUDIO` + `content_genres` containing `"classical"`;
-  emits external ids and an `EntityRole.COMPOSER` entity.
 - `pyclassicalarchives/dataset.py` — flat row builders for HF datasets
   (`composer_rows`, `composer_detail_row`, `work_rows`, `album_rows`,
   `build_dataset`, `write_jsonl`).
-- `docs/` — quickstart, api, advanced, metadatarr, dataset guides.
+- `docs/` — quickstart, api, advanced, canonical_ids, dataset guides.
 - `examples/` — numbered runnable scripts (01–10).
 
 ## API surface (classicalarchives.com)

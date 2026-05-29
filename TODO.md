@@ -21,7 +21,8 @@ None open.
 - [ ] Work- and album-level detail are embedded in the composer page only;
       if dedicated endpoints surface, add `fetch_work` / `fetch_album`.
 - [ ] `to_mediavocab()` helpers building `Work`/`Release`/`Entity` objects
-      (current integration is via the resolver provider + `to_external_ids_dict`).
+      (this client only exposes `to_external_ids_dict`; the metadatarr resolver
+      provider that consumes it lives in the metadatarr repo).
 
 ## Code TODOs
 
