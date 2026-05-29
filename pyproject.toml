@@ -6,12 +6,27 @@ build-backend = "setuptools.build_meta"
 name = "pyclassicalarchives"
 dynamic = ["version"]
 description = "Typed Python client for Classical Archives (classicalarchives.com)"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "JarbasAi", email = "jarbasai@mailfence.com" }]
 requires-python = ">=3.9"
 dependencies = ["requests>=2.28"]
+keywords = ["classicalarchives", "classical-music", "composers", "scraper", "metadata"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP",
+]
 
 [project.optional-dependencies]
 stealth = ["curl-cffi"]
 test = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/TigreGotico/pyclassicalarchives"
+Repository = "https://github.com/TigreGotico/pyclassicalarchives"
 
 [tool.setuptools.packages.find]
 where = ["."]
