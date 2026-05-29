@@ -1,0 +1,86 @@
+# pyclassicalarchives
+
+Typed Python client for [Classical Archives](https://www.classicalarchives.com)
+— one of the largest catalogues of classical music on the web.
+
+It wraps the site's public JSON API behind clean dataclasses: browse curated
+and full A–Z composer lists, search by name, and fetch a composer's full page
+(biography, period, lifedates, **albums** and **works**). Every model exposes
+canonical ids for de-duplication and an optional
+[metadatarr](../metadatarr) provider for cross-referencing.
+
+## Install
+
+```bash
+pip install pyclassicalarchives
+pip install pyclassicalarchives[stealth]   # adds curl-cffi (Chrome TLS), if ever gated
+pip install pyclassicalarchives[dev]       # adds pytest
+```
+
+## 30-second tour
+
+```python
+import pyclassicalarchives as ca
+
+# Curated lists
+for c in ca.get_notable_composers()[:5]:
+    print(c.composer_id, c.display_name, c.country, c.birth, c.death)
+
+# Search by name (surname-first or natural order both work)
+bach = ca.search_composers("johann sebastian bach")[0]
+
+# Full page: bio, period, albums, works
+detail = ca.fetch_composer(bach.composer_id)
+print(detail.life, detail.period)                 # (1685-1750) Baroque
+print(len(detail.albums), "albums,", len(detail.works), "works")
+
+# Canonical ids for dedup / cross-referencing
+print(detail.to_external_ids_dict())
+# {'classicalarchives_composer': '2113', 'classicalarchives_url': '.../composer/2113.html'}
+```
+
+## What you can fetch
+
+| Function | Returns | Source endpoint |
+|---|---|---|
+| `get_notable_composers()` | `List[Composer]` | `composer_list_notable.json` |
+| `get_must_know_composers()` | `List[Composer]` | `mustknow_composers.json` |
+| `get_composers_by_letter("B")` | `List[Composer]` | `composer_list_all.json?letter=` |
+| `iter_all_composers()` | `Iterator[Composer]` | the whole A–Z catalogue (lazy) |
+| `search_composers("mozart")` | `List[Composer]` | client-side over the by-letter lists |
+| `fetch_composer(id)` | `ComposerDetail` | `composer_page.json?composer_id=` |
+
+A `ComposerDetail` carries nested `albums: List[Album]` and `works: List[Work]`
+(the works tree is recursively flattened to leaf works, each tagged with its
+full category path).
+
+## Documentation
+
+Start with **[docs/quickstart.md](docs/quickstart.md)**, then:
+
+- [docs/api.md](docs/api.md) — every function, every model field
+- [docs/advanced.md](docs/advanced.md) — pagination, transport, error handling, rate limits
+- [docs/metadatarr.md](docs/metadatarr.md) — canonical ids, entity lookup, the resolver provider
+- [docs/dataset.md](docs/dataset.md) — building a Hugging Face dataset
+
+Runnable, numbered scripts live in [examples/](examples/).
+
+## metadatarr integration
+
+```python
+import pyclassicalarchives._provider          # registers the provider
+from metadatarr.resolve.base import resolve
+from mediavocab.models.signals import Signals
+from mediavocab import PlaybackType
+
+result = resolve(Signals(
+    artist="Johann Sebastian Bach",
+    playback_type=PlaybackType.AUDIO,
+    content_genres=["classical"],
+))
+print(result.external_ids.extra)               # {'classicalarchives_composer': '2113', ...}
+```
+
+The provider resolves a composer to its stable Classical Archives id and emits
+an `EntityRole.COMPOSER` entity, from which metadatarr derives a deterministic
+canonical entity id. See [docs/metadatarr.md](docs/metadatarr.md).

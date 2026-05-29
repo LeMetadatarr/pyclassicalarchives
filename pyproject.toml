@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyclassicalarchives"
+version = "0.1.0"
+description = "Typed Python client for Classical Archives (classicalarchives.com)"
+requires-python = ">=3.9"
+dependencies = ["requests>=2.28"]
+
+[project.optional-dependencies]
+stealth = ["curl-cffi"]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pyclassicalarchives*"]
