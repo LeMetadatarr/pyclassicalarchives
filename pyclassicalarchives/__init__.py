@@ -33,22 +33,8 @@ Quick start::
     import json
     print(json.dumps(detail.to_dict(), indent=2)[:400])
 
-    # Canonical ids for dedup / metadatarr
+    # Canonical ids for dedup / cross-referencing (consumed by metadatarr)
     print(detail.to_external_ids_dict())
-
-metadatarr integration (optional)::
-
-    import pyclassicalarchives._provider          # registers the provider
-    from metadatarr.resolve.base import resolve
-    from mediavocab.models.signals import Signals
-    from mediavocab import PlaybackType
-
-    result = resolve(Signals(
-        artist="Johann Sebastian Bach",
-        playback_type=PlaybackType.AUDIO,
-        content_genres=["classical"],
-    ))
-    print(result.external_ids.extra)
 """
 from pyclassicalarchives.types import Album, Composer, ComposerDetail, Work
 from pyclassicalarchives.composers import (

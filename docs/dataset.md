@@ -1,17 +1,18 @@
 # Building a Hugging Face dataset
 
-Classical Archives' data is a **graph** (composer → works, composer → albums).
-A good HF dataset is **flat tables**. `pyclassicalarchives.dataset` emits three
-row streams that share `composer_id` as a join key, so you can publish them as
-three configs of one dataset (or three separate datasets).
+Classical Archives' data is a **graph** (composer to works, composer to
+albums). A good HF dataset is **flat tables**. `pyclassicalarchives.dataset`
+emits three row streams that share `composer_id` as a join key, so you can
+publish them as three configs of one dataset, or as three separate datasets.
 
 ## What columns and rows?
 
-### Table 1 — `composers` (the headline table)
+### Table 1: `composers` (the headline table)
 
-**One row per composer.** This is the table most people will load. Two grades:
+**One row per composer.** This is the table most people load. It comes in
+two grades:
 
-*Cheap* (`composer_rows`, from the by-letter listings — no per-composer fetch):
+*Cheap* (`composer_rows`, from the by-letter listings, no per-composer fetch):
 
 | Column | Type | Example |
 |---|---|---|
@@ -30,24 +31,22 @@ three configs of one dataset (or three separate datasets).
 | `notable` | bool | `false` |
 | `must_know` | bool | `false` |
 
-*Rich* (`composer_detail_row`, one HTTP fetch per composer — adds the good NLP
-columns):
-
-adds `life`, `period` (`"Baroque"`), `bio` (a substantial plain-text
-biography — the headline text feature), `radio_id`, and the counts
+*Rich* (`composer_detail_row`, one HTTP fetch per composer, adds the good NLP
+columns): adds `life`, `period` (`"Baroque"`), `bio` (a substantial
+plain-text biography, the headline text feature), `radio_id`, and the counts
 `n_works_listed` / `n_albums_listed`.
 
-**Rows:** ~tens of thousands of composers (the full A–Z catalogue).
+**Rows:** roughly tens of thousands of composers (the full A-Z catalogue).
 
-### Table 2 — `works`
+### Table 2: `works`
 
-**One row per work**, via `work_rows(detail)`:
+**One row per work**, from `work_rows(detail)`:
 
 | Column | Type | Notes |
 |---|---|---|
 | `work_id` | int64 | canonical id |
 | `composer_id` | int64 | **join key** |
-| `composer_name` | string | denormalised for convenience |
+| `composer_name` | string | denormalized for convenience |
 | `title` | string | `"Cantata No.1: Wie schön leuchtet…"` |
 | `category` | string | top-level group, e.g. `"Vocal Works"` |
 | `n_recordings` | int64 | popularity signal |
@@ -55,12 +54,12 @@ biography — the headline text feature), `radio_id`, and the counts
 | `n_albums` | int64 | |
 | `url` | string | |
 
-**Rows:** hundreds to a couple thousand per prolific composer (J. S. Bach alone
-has ~1,250 leaf works).
+**Rows:** hundreds to a couple thousand per prolific composer. J. S. Bach
+alone has about 1,250 leaf works.
 
-### Table 3 — `albums`
+### Table 3: `albums`
 
-**One row per album**, via `album_rows(detail)`:
+**One row per album**, from `album_rows(detail)`:
 
 | Column | Type | Notes |
 |---|---|---|
@@ -80,12 +79,13 @@ has ~1,250 leaf works).
 
 ## Why this shape
 
-- **`composer_id` everywhere** makes the three tables joinable and gives every
-  row a stable primary/foreign key — the canonical id, not a row index.
+- **`composer_id` everywhere** makes the three tables joinable and gives
+  every row a stable primary or foreign key, the canonical id, not a row
+  index.
 - **Counts** (`n_recordings`, `n_performers`, `n_albums`) are ready-made
-  popularity / relevance signals for ranking or weighting.
-- **`bio`** is the one substantial free-text field — the natural target for
-  text tasks (classification by period, retrieval, summarisation).
+  popularity and relevance signals for ranking or weighting.
+- **`bio`** is the one substantial free-text field, the natural target for
+  text tasks such as classification by period, retrieval, or summarization.
 - **`period` and `country`** are clean categorical labels.
 - Consistent `None`/null for missing values keeps the Arrow schema stable.
 
@@ -114,7 +114,7 @@ dataset.write_jsonl("works.jsonl", works)
 dataset.write_jsonl("albums.jsonl", albums)
 ```
 
-## Load into 🤗 `datasets`
+## Load into Hugging Face `datasets`
 
 ```python
 from datasets import Dataset, DatasetDict
@@ -127,7 +127,11 @@ ds = DatasetDict({"composers": composers, "works": works, "albums": albums})
 ds.push_to_hub("your-org/classical-archives")
 ```
 
-> Be polite when scraping the whole catalogue for the rich/works/albums tables:
-> `robots.txt` asks for a 1-second crawl delay. See [advanced.md](advanced.md).
+> Be polite when you scrape the whole catalogue for the rich, works, or
+> albums tables. `robots.txt` asks for a 1-second crawl delay. See
+> [advanced.md](advanced.md).
 
 See `examples/10_build_dataset.py` for a runnable version.
+
+---
+[← Canonical ids](canonical_ids.md) · [Home](../README.md)

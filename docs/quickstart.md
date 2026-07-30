@@ -1,7 +1,7 @@
-# Quickstart — zero to hero
+# Quickstart
 
 This guide takes you from `pip install` to fetching a composer's complete
-catalogue. No API key is required; Classical Archives' JSON API is public.
+catalogue. No API key is required. Classical Archives' JSON API is public.
 
 ## 1. Install
 
@@ -10,7 +10,7 @@ pip install pyclassicalarchives
 ```
 
 If the site ever starts blocking plain HTTP clients, install the stealth extra
-and flip one environment variable (see [advanced.md](advanced.md)):
+and set one environment variable (see [advanced.md](advanced.md)):
 
 ```bash
 pip install pyclassicalarchives[stealth]
@@ -19,7 +19,8 @@ export PYCLASSICALARCHIVES_TRANSPORT=curl_cffi
 
 ## 2. The mental model
 
-Classical Archives is organised around three things, and so is this library:
+Classical Archives organizes its data around three things, and so does this
+library:
 
 ```
 Composer ──┬── writes ──▶ Work   (a piece of music: a cantata, a concerto, …)
@@ -27,8 +28,8 @@ Composer ──┬── writes ──▶ Work   (a piece of music: a cantata, a
 ```
 
 - A **`Composer`** is the lightweight shape you get from any *list* endpoint.
-- A **`ComposerDetail`** is the *full page*: biography, period, lifedates, plus
-  the composer's **albums** and **works**.
+- A **`ComposerDetail`** is the *full page*: biography, period, lifedates,
+  plus the composer's **albums** and **works**.
 - **`Album`** and **`Work`** are always reached through a `ComposerDetail`.
 
 ## 3. Browse the curated lists
@@ -43,10 +44,10 @@ for c in notable[:5]:
     print(c.composer_id, c.display_name, c.country, f"{c.birth}-{c.death or ''}")
 ```
 
-`get_must_know_composers()` returns a smaller, curated "must know" set (these
-come back as terse triples, so only id / name / image are populated).
+`get_must_know_composers()` returns a smaller, curated "must know" set. These
+come back as terse triples, so only id, name, and image are populated.
 
-## 4. Browse the full A–Z catalogue
+## 4. Browse the full A-Z catalogue
 
 ```python
 # One initial at a time
@@ -103,16 +104,16 @@ except ca.ComposerNotFound as e:
 detail = ca.fetch_composer(2113)
 
 for a in detail.albums[:3]:
-    print(a.title, "—", a.label, f"({a.n_tracks} tracks, {a.duration}s)")
+    print(a.title, "-", a.label, f"({a.n_tracks} tracks, {a.duration}s)")
 
 for w in detail.works[:3]:
     print(" > ".join(w.category_path), "::", w.title, f"({w.n_recordings} recordings)")
 ```
 
-`category_path` is the full root→leaf path through the site's nested work
-groups; `category` is just the top-level group.
+`category_path` is the full root-to-leaf path through the site's nested work
+groups. `category` is just the top-level group.
 
-## 8. Serialise
+## 8. Serialize
 
 Every model has `to_dict()` (JSON-friendly) and `to_external_ids_dict()`:
 
@@ -124,7 +125,10 @@ print(detail.to_external_ids_dict())
 
 ## Next steps
 
-- [api.md](api.md) — the complete reference
-- [metadatarr.md](metadatarr.md) — canonical ids and the resolver provider
-- [dataset.md](dataset.md) — turn the catalogue into a Hugging Face dataset
-- [advanced.md](advanced.md) — transport, rate limits, error handling
+- [api.md](api.md): the complete reference
+- [canonical_ids.md](canonical_ids.md): canonical ids (how metadatarr consumes this)
+- [dataset.md](dataset.md): turn the catalogue into a Hugging Face dataset
+- [advanced.md](advanced.md): transport, rate limits, error handling
+
+---
+[Home](../README.md) · [API reference →](api.md)
