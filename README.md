@@ -15,7 +15,7 @@ sources.
 ```bash
 pip install pyclassicalarchives
 pip install pyclassicalarchives[stealth]   # adds curl-cffi (Chrome TLS), if ever gated
-pip install pyclassicalarchives[dev]       # adds pytest
+pip install pyclassicalarchives[test]      # adds pytest
 ```
 
 ## 30-second tour
@@ -84,3 +84,9 @@ lives in the [metadatarr](../metadatarr) repo
 integration code stays out of client repos. Install both packages and
 metadatarr auto-discovers the provider. See
 [docs/canonical_ids.md](docs/canonical_ids.md).
+
+## Related projects
+
+- [metadatarr](https://github.com/LeMetadatarr/metadatarr): the resolver that
+  consumes this package's canonical ids to cross-reference composers across
+  metadata providers.

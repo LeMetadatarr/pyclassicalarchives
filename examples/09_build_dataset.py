@@ -1,11 +1,11 @@
-"""Example 10 — build flat rows for a Hugging Face dataset.
+"""Example 09 — build flat rows for a Hugging Face dataset.
 
 Emits the three join-able tables (composers / works / albums) and writes
 a small JSONL sample. See docs/dataset.md for the full column dictionary.
 
 Run::
 
-    python examples/10_build_dataset.py
+    python examples/09_build_dataset.py
 """
 import pyclassicalarchives as ca
 from pyclassicalarchives import dataset
