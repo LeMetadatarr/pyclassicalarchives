@@ -1,14 +1,22 @@
 # Changelog
 
-## [0.0.1a2](https://github.com/TigreGotico/pyclassicalarchives/tree/0.0.1a2) (2026-07-30)
+## [0.0.1a3](https://github.com/LeMetadatarr/pyclassicalarchives/tree/0.0.1a3) (2026-08-02)
 
-[Full Changelog](https://github.com/TigreGotico/pyclassicalarchives/compare/e72976ae7ecfdd3c341bac9434a3e35ae8d1441f...0.0.1a2)
+[Full Changelog](https://github.com/LeMetadatarr/pyclassicalarchives/compare/0.0.1a2...0.0.1a3)
 
 **Merged pull requests:**
 
-- docs: rewrite README in Simplified Technical English [\#4](https://github.com/TigreGotico/pyclassicalarchives/pull/4) ([JarbasAl](https://github.com/JarbasAl))
-- ci: add standard gh-automations workflows [\#2](https://github.com/TigreGotico/pyclassicalarchives/pull/2) ([JarbasAl](https://github.com/JarbasAl))
-- Configure Renovate [\#1](https://github.com/TigreGotico/pyclassicalarchives/pull/1) ([renovate[bot]](https://github.com/apps/renovate))
+- docs: QA pass — accuracy, org-move URLs, related projects [\#6](https://github.com/LeMetadatarr/pyclassicalarchives/pull/6) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.0.1a2](https://github.com/LeMetadatarr/pyclassicalarchives/tree/0.0.1a2) (2026-07-30)
+
+[Full Changelog](https://github.com/LeMetadatarr/pyclassicalarchives/compare/e72976ae7ecfdd3c341bac9434a3e35ae8d1441f...0.0.1a2)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#4](https://github.com/LeMetadatarr/pyclassicalarchives/pull/4) ([JarbasAl](https://github.com/JarbasAl))
+- ci: add standard gh-automations workflows [\#2](https://github.com/LeMetadatarr/pyclassicalarchives/pull/2) ([JarbasAl](https://github.com/JarbasAl))
+- Configure Renovate [\#1](https://github.com/LeMetadatarr/pyclassicalarchives/pull/1) ([renovate[bot]](https://github.com/apps/renovate))
 
 
 
