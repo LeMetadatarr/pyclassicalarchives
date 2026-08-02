@@ -131,7 +131,7 @@ ds.push_to_hub("your-org/classical-archives")
 > albums tables. `robots.txt` asks for a 1-second crawl delay. See
 > [advanced.md](advanced.md).
 
-See `examples/10_build_dataset.py` for a runnable version.
+See `examples/09_build_dataset.py` for a runnable version.
 
 ---
 [← Canonical ids](canonical_ids.md) · [Home](../README.md)
