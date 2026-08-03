@@ -70,7 +70,7 @@ def get_composers_by_letter(letter: str) -> List[Composer]:
         print(len(bs), "composers under B")
     """
     letter = letter.strip().upper()[:1]
-    if letter not in string.ascii_uppercase:
+    if len(letter) != 1 or letter not in string.ascii_uppercase:
         raise ValueError(f"letter must be A-Z, got {letter!r}")
     data = get_json("/api/composer_list_all.json", letter=letter)
     return [Composer.from_api(c) for c in data]
@@ -179,4 +179,4 @@ def search_composers(query: str, limit: Optional[int] = None) -> List[Composer]:
         return (tier, -(c.n_recordings or 0), len(c.name))
 
     results = sorted((c for c in seen.values() if matches(c)), key=score)
-    return results[:limit] if limit else results
+    return results[:limit] if limit is not None else results

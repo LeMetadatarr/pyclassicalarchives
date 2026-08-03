@@ -378,6 +378,8 @@ class ComposerDetail:
     def to_dict(self) -> Dict[str, Any]:
         d = dataclasses.asdict(self)
         d["url"] = self.url
+        d["albums"] = [a.to_dict() for a in self.albums]
+        d["works"] = [w.to_dict() for w in self.works]
         return d
 
     def to_external_ids_dict(self) -> Dict[str, str]:
